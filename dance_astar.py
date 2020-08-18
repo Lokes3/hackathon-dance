@@ -3,58 +3,80 @@ import numpy as np
 from itertools import product
 
 
-DIST_THRESHOLD = 2
-DIST = 2
+DIST_THRESHOLD = 1
+DIST = 1
 
-def stencil(dim,dist):
-    dist_list =[]
-    for i in reversed(range(dist)):
-        dist_list.append(-1* (i+1))
-    dist_list.append(0)
-    for i in range(dist):
-        dist_list.append(i+1)
-    stencils = list(product(dist_list, repeat=dim))
+def stencil(dim):
+    ## Creates stencil of four directions of movement + standstill
+    stencils = list(product([-2, -1, 0, 1, 2], repeat=dim))
     zero = ((0,) * dim)
     stencils.remove(zero)
     return stencils
 
+def taxi_cab_stencil(stencil):
+    ## Translates stencil into taxi cab movement
+    stencil_dict = {-2: (-1,0), -1 : (0, -1), 0: (0,0), 1: (0, 1), 2: (1, 0)}
+    out_stencil = []
+    for diff in stencil:
+        out_stencil.append(list(map(lambda n: stencil_dict[n], diff)))
+    return out_stencil
+
+
 class DanceAStar(AStar):
+    def __init__(self, xmax, ymax):
+        self.xmax = xmax
+        self.ymax = ymax
 
-    def __dancer_distance(self, node, dancer1, dancer2):
-        ## Euclidian distance
-        return np.sqrt((node[2*dancer1]-node[2*dancer2])**2+(np.sqrt(node[2*dancer1+1]-node[2*dancer2+1])))
+        super(DanceAStar, self).__init__()
 
-    def neighbors(self, node):
-        n_dancers = len(node)//2
+    #def __dancer_distance(self, node, dancer1, dancer2):
+     #   ## Euclidian distance
+      #  return np.sqrt((node[dancer1, 0]-node[dancer2,0])**2+(np.sqrt(node[dancer1,1]-node[dancer2,1])))
+
+    def neighbors(self, node) -> list:
+        n_dancers = len(node)
+        from icecream import ic
         node_array = np.array(node)
-        diffs = 2 * stencil(len(node), DIST)        # Find all neighbors
+        diffs = taxi_cab_stencil(stencil(n_dancers))        # Find all neighbors
+        ic(diffs)
+        #print(diffs)
         neighbor_list = []
         for diff in diffs:
             potential_neighbor = node_array + diff
             potential = True
             for dancer1 in range(n_dancers):
-                for dancer2 in range(n_dancers):
+                if potential_neighbor[dancer1, 0] < 0 or potential_neighbor[dancer1, 0] > self.xmax \
+                    or potential_neighbor[dancer1, 1] < 0 or potential_neighbor[dancer1, 1] > self.ymax:
+                    potential = False
+                    break
+                for dancer2 in range(dancer1 + 1, n_dancers):
                     ## Check collision
-                    if dancer2 > dancer1 and \
-                            self.__dancer_distance(potential_neighbor, dancer1, dancer2) < DIST_THRESHOLD:
+                    if (potential_neighbor[dancer1] == potential_neighbor[dancer2]).all():
                         potential = False
                         break
+
             if potential:
                 ## No collisions
-                neighbor_list.append(potential_neighbor.tolist())
+                #print(potential_neighbor)
+                neighbor_list.append(tuple(potential_neighbor[0]))
+        print(neighbor_list)
+        return neighbor_list
 
     def distance_between(self, n1, n2):
+        #print(np.array(n1))
         diff_vector = np.abs(np.array(n1) - np.array(n2))
         return np.sum(diff_vector)
 
     def heuristic_cost_estimate(self, current, goal):
+        print(self.distance_between(current, goal))
         return self.distance_between(current, goal)
 
     def is_goal_reached(self, current, goal):
         return self.distance_between(current, goal) < 1e-6
 
 
-def find_dance_path(start, goal):
-    return list(DanceAStar().astar(start, goal))
+def find_dance_path(start, goal, xmax, ymax):
+    return list(DanceAStar(xmax, ymax).astar(start, goal))
 
 if __name__ == '__main__':
+    print(find_dance_path(start=((0, 0), (2, 0)), goal=((0, 3), (2, 3)), xmax=5, ymax=5))
