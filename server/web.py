@@ -31,11 +31,14 @@ class Dance(BaseModel):
     dimensions: Optional[Dict]
     choreography: Optional[List[Formation]]
 
-    def to_json(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if not self.choreography:
             self.choreography = []
         if not self.dimensions:
             self.dimensions = {"rows": 12, "columns": 12}
+
+    def to_json(self):
         return json.dumps(jsonable_encoder(self))
 
 
@@ -79,5 +82,4 @@ def create_dance(dance: Dance):
 
 @app.get("/dances/{dance_id}/")
 def get_dance(dance_id: int):
-    result = db.get_dance(dance_id)
-    return result
+    return Dance(**json.loads(db.get_dance(dance_id).data))

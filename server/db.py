@@ -19,6 +19,10 @@ db.connect()
 db.create_tables(MODELS)
 
 
+def get_dance(dance_id: int):
+    return DanceDB.select().where(DanceDB.id == dance_id).get()
+
+
 def get_dances(title: Optional[str]):
     # ** betyder ILIKE
     query = DanceDB.select()
