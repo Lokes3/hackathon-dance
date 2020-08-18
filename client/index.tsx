@@ -2,8 +2,6 @@ import './scss/global.scss';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import App from './App';
 
-const App: React.FunctionalComponent = () => <h1>hello-world</h1>;
-
-ReactDOM.render(<App />, document.getElementById("root"));
-
+ReactDOM.render(<App />, document.getElementById('root'));

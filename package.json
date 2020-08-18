@@ -14,15 +14,18 @@
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
     "prettier": "^1.19.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "rimraf": "^3.0.0",
     "sass": "^1.23.7",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.3",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "typescript": "^3.7.3"
   },
   "scripts": {
-    "start": "parcel src/index.html",
-    "build": "parcel build --experimental-scope-hoisting src/index.html"
+    "start": "parcel client/index.html",
+    "build": "parcel build --experimental-scope-hoisting client/index.html"
+  },
+  "dependencies": {
+    "styled-components": "^5.1.1"
   }
 }
