@@ -26,6 +26,8 @@
     "build": "parcel build --experimental-scope-hoisting client/index.html"
   },
   "dependencies": {
+    "@types/jest": "^26.0.10",
+    "jest": "^26.4.0",
     "styled-components": "^5.1.1"
   }
 }
