@@ -6,7 +6,7 @@ init:
 
 .PHONY: server
 server:
-	uvicorn --reload server.server:app
+	uvicorn --reload server.web:app
 
 
 
