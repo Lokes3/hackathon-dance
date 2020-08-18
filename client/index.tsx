@@ -18,8 +18,13 @@ function DanceSelection() {
         setDances([...dances, ...data.dances]);
       });
   }, []);
+  // This is a bad way to do this
+  const params = new URLSearchParams(window.location.search)
+  const selectedId = Number.parseInt(params.get("id"))
   if (selected) {
     return <App data={selected} />;
+  } else if (selectedId && dances.filter(d => d.id === selectedId).length) {
+    setSelected(dances.filter(d => d.id === selectedId)[0])
   } else {
     return (
       <div>
@@ -30,8 +35,9 @@ function DanceSelection() {
         <ul>
           {dances.map((dance, i) => {
             return (
-              <li key={i} onClick={() => setSelected(dance)}>
-                {dance.title}
+              <li key={i}>
+                <div onClick={() => setSelected(dance)}>{dance.title}</div>
+                <a href={ `/?id=${dance.id}` }>Länk</a>
               </li>
             );
           })}
