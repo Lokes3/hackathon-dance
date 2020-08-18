@@ -15,26 +15,30 @@ const Page = styled.div`
 
 const stateReducer = (state, action) => {
   switch (action.type) {
+    case 'SET_STATE': {
+      console.log(action)
+      return action.state;
+    }
     case 'MOVE_DANCER': {
       const { name, coordinates, frame } = action;
       const { choreography } = state;
       const { positions } = choreography[frame];
-      const dancerIndex = positions.findIndex(dancer => dancer.name === name);
+      const dancerIndex = positions.findIndex((dancer) => dancer.name === name);
       const newDancer = {
         ...positions[dancerIndex],
         x: coordinates.column,
-        y: coordinates.row
+        y: coordinates.row,
       };
       const newPositions = [
         ...positions.slice(0, dancerIndex),
         newDancer,
-        ...positions.slice(dancerIndex + 1)
+        ...positions.slice(dancerIndex + 1),
       ];
       const newFormation = { ...choreography[frame], positions: newPositions };
       const newChoreography = [
         ...choreography.slice(0, frame),
         newFormation,
-        ...choreography.slice(frame + 1)
+        ...choreography.slice(frame + 1),
       ];
       return { ...state, choreography: newChoreography };
     }
@@ -45,7 +49,7 @@ const stateReducer = (state, action) => {
       const newChoreography = [
         ...choreography.slice(0, frame),
         newFormation,
-        ...choreography.slice(frame + 1)
+        ...choreography.slice(frame + 1),
       ];
       return { ...state, choreography: newChoreography };
     }
@@ -83,8 +87,21 @@ const App = ({ data }) => {
           fetch(`/dances/${state.id}/`, {
             method: 'POST',
             body: JSON.stringify({
-              data: state
+              data: state,
+            }),
+          }).then(() => {
+            console.log('computing');
+            fetch('/compute/', {
+              method: 'POST',
+              body: JSON.stringify(state),
             })
+              .then((r) => {
+                console.log('computed');
+                return r.json();
+              })
+              .then((data) => {
+                dispatch({ type: 'SET_STATE', state: data });
+              });
           });
         }}
       >
