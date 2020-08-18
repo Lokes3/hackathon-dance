@@ -14,3 +14,9 @@ server:
 test:
 	pytest
 	yarn run jest
+
+
+
+.PHONY: reset
+reset:
+	rm dances.db
