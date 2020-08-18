@@ -79,8 +79,16 @@ def get_dance(dance_id: int):
     return Dance(**json.loads(db.get_dance(dance_id).data))
 
 
-@app.get("/compute/")
-def create_dance(dance: Dance):
+@app.post("/compute/")
+def compute(dance: dict):
     dance_obj = dancers.Dance(dance)
     dance_obj.interpolate(cbs.find_dance_path)
     return dance_obj.to_dict()
+
+
+@app.post("/dances/{dance_id}/")
+def save_dance(dance_id: int, dance: Dance):
+    dance_db = db.get_dance(dance_id)
+    dance_db.data = dance.to_json()
+    dance_db.save()
+    return {"success": True}
