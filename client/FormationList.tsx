@@ -18,6 +18,7 @@ const Snapshot = styled.div`
 
 type Props = {
   formations: Formation[];
+  dimensions
 };
 export function FormationList({ formations, dimensions }: Props) {
   return (

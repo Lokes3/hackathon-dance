@@ -1,5 +1,9 @@
 {
   "title": "Min första lista",
+  "dimensions": {
+    "rows": 12,
+    "columns": 16
+  },
   "choreography": [
     {
       "index": 0,
