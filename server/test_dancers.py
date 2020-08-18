@@ -25,8 +25,5 @@ def test_dance_vectors():
     assert dance.title == test_json["title"]
     assert dance.dimensions == test_json["dimensions"]
 
-    assert list(dance._vectors()) == [start, target]
-    assert list(dance.vector_pairs()) == [(start, target)]
-
     dance.interpolate(dummy_algo)
     # TODO: fix tests

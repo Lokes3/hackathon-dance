@@ -3,21 +3,10 @@
 import json
 from typing import Any, Callable, Dict, Generator, NamedTuple, Tuple, List
 
-from icecream import ic
-
 with open("test_data.json", encoding="utf-8") as f:
     test_data = json.load(f)
 
-
-class Vector(NamedTuple):
-    x: int
-    y: int
-
-    def __add__(self, other: "Vector") -> "Vector":
-        return Vector(self.x + other.x, self.y + other.y)
-
-
-Algorithm = Callable[[List[Vector], List[Vector], int, int], List[List[Vector]]]
+Algorithm = Callable[[List[Dict[str, Any]]], Dict[str, List[Tuple[int, int]]]]
 
 
 class Dance:
@@ -30,30 +19,29 @@ class Dance:
         for frame in self.choreography:
             frame["positions"].sort(key=lambda pos: pos["name"])
 
-    def _vectors(self) -> Generator[List[Vector], None, None]:
-        for frame in self.choreography:
-            yield [Vector(x=pos["x"], y=pos["y"]) for pos in frame["positions"]]
-
-    def vector_pairs(self) -> Generator[Tuple[List[Vector], List[Vector]], None, None]:
-        prev = None
-        for vec in self._vectors():
-            if prev is not None:
-                yield prev, vec
-            prev = vec
+    def movements(self) -> Generator[List[Dict[str, Any]], None, None]:
+        for start_frame, target_frame in zip(self.choreography[:-1], self.choreography[1:]):
+            yield [
+                dict(
+                    name=start_pos["name"],
+                    start=[start_pos["x"], start_pos["y"]],
+                    goal=[target_pos["x"], target_pos["y"]],
+                )
+                for start_pos, target_pos in zip(
+                    start_frame["positions"], target_frame["positions"]
+                )
+            ]
 
     def interpolate(self, algorithm: Algorithm) -> None:
-        for frame, vector_pair in zip(self.choreography, self.vector_pairs()):
-            _, *intermediates, _ = algorithm(*vector_pair, *self.real_dimensions)
-            frame_copy = frame.copy()
-            del frame_copy["description"]
-            frame["key_frames"] = []
-            for i, intermediate_vector in enumerate(intermediates):
-                interpolated_pos = [
-                    dict(pos, x=x, y=y)
-                    for (x, y), pos in zip(intermediate_vector, frame["positions"])
-                ]
-                frame["key_frames"].append(dict(frame_copy, positions=interpolated_pos, index=i))
+        for frame, movement_dict in zip(self.choreography, self.movements()):
+            result = algorithm(movement_dict, *self.real_dimensions)
+            num_steps = len(list(result.values())[0]) - 2
 
+            frame["key_frames"] = [dict(index=i, positions=[]) for i in range(num_steps)]
+            for (name, pos_list), pos in zip(sorted(result.items()), frame["positions"]):
+                assert name == pos["name"]
+                for i, (x, y) in enumerate(pos_list[1:-1]):
+                    frame["key_frames"][i]["positions"].append(dict(pos, x=x, y=y))
 
     def to_dict(self) -> Dict[str, Any]:
         return dict(
@@ -64,20 +52,40 @@ class Dance:
         )
 
 
-def dummy_algo(start: List[Vector], target: List[Vector], x_min: int, y_min: int) -> List[Vector]:
-    return [
-        start,
-        [Vector(1, 0) + s for s in start],
-        [Vector(0, 1) + t for t in target],
-        target,
-    ]
+def dummy_algo(
+    agents: List[Dict[str, Any]], x_min: int, y_min: int
+) -> Dict[str, List[Tuple[int, int]]]:
+    out_dict = {}
+    for agent in agents:
+        start_x, start_y = agent["start"]
+        target_x, target_y = agent["goal"]
+        out_dict[agent["name"]] = [
+            (start_x, start_y),
+            (start_x + 1, start_y),
+            (target_x, target_y + 1),
+            (target_x, target_y),
+        ]
+    return out_dict
 
 
 if __name__ == "__main__":
     dance = Dance(test_data)
-    dance.interpolate(dummy_algo)
-    with open("test_data_dummy_algo.json", "w", encoding="utf-8") as f:
-        f.write(json.dumps(dance.to_dict(), indent=4, ensure_ascii=False))
+    from pprint import pprint
 
-    res = dummy_algo([Vector(1, 2), Vector(3, 4)], [Vector(4, 6), Vector(4, 2)], 10, 10)
+    pprint(list(dance.movements()))
+
+    res = dummy_algo(
+        [
+            {"goal": [13, 11], "name": "A", "start": [13, 13]},
+            {"goal": [17, 17], "name": "B", "start": [17, 13]},
+            {"goal": [21, 11], "name": "C", "start": [21, 13]},
+        ],
+        10,
+        10,
+    )
     print(res)
+
+    dance.interpolate(dummy_algo)
+    # with open("test_data_dummy_algo.json", "w", encoding="utf-8") as f:
+    #     f.write(json.dumps(dance.to_dict(), indent=4, ensure_ascii=False))
+    print(json.dumps(dance.to_dict(), indent=4, ensure_ascii=False))
