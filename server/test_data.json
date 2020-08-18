@@ -1,0 +1,54 @@
+{
+  "title": "Min första lista",
+  "choreography": [
+    {
+      "index": 0,
+      "description": "raise your hands",
+      "positions": [
+        {
+          "name": "A",
+          "x": 3,
+          "y": 3,
+          "color": "red"
+        },
+        {
+          "name": "B",
+          "x": 5,
+          "y": 3,
+          "color": "green"
+        },
+        {
+          "name": "C",
+          "x": 7,
+          "y": 3,
+          "color": "blue"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "description": "raise your hands",
+      "positions": [
+        {
+          "name": "A",
+          "x": 3,
+          "y": 5,
+          "color": "red"
+        },
+        {
+          "name": "B",
+          "x": 5,
+          "y": 5,
+          "color": "green"
+        },
+        {
+          "name": "C",
+          "x": 7,
+          "y": 5,
+          "color": "blue"
+        }
+      ]
+    }
+  ],
+  "id": 1
+}
