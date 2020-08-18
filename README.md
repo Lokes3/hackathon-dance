@@ -8,7 +8,7 @@ To install and start:
 
 ```
 
-Simon's addition
+Simon's addition numba 2
 
 # Install
 yarn
