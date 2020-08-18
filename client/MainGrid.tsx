@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
 import { Position } from './types';
 type Props = {
   positions: Position[];
@@ -9,6 +10,11 @@ type Props = {
   dispatch: Function;
   frame: number;
 };
+
+const Circle = styled.circle`
+  transition: cx 0.5s, cy 0.5s;
+`;
+
 export function MainGrid({ positions, dimensions, dispatch, frame }: Props) {
   const [selectedDancer, setSelectedDancer] = useState(null);
   const { rows, columns } = dimensions;
@@ -87,7 +93,7 @@ export function MainGrid({ positions, dimensions, dispatch, frame }: Props) {
         />
       ))}
       {positions.map(dancer => (
-        <circle
+        <Circle
           key={dancer.name}
           data-name={dancer.name}
           cx={dancer.x}

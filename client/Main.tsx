@@ -20,6 +20,9 @@ export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
       setFrame(frame - 1);
     }
   };
+  const addFrame = () => {
+    dispatch({ type: 'ADD_FRAME' });
+  };
   return (
     <Container>
       <h3>
@@ -28,7 +31,8 @@ export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
       <div>
         Frame: {frame + 1}/{formations.length}{' '}
         <button onClick={decrementFrame}>{'<'}</button>{' '}
-        <button onClick={incrementFrame}>{'>'}</button>
+        <button onClick={incrementFrame}>{'>'}</button>{' '}
+        <button onClick={addFrame}>Add Frame</button>
       </div>
       <MainGrid
         positions={formation.positions}

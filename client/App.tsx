@@ -37,6 +37,11 @@ const stateReducer = (state, action) => {
         ...choreography.slice(frame + 1)
       ];
       return { ...state, choreography: newChoreography };
+    case 'ADD_FRAME':
+      const { choreography } = state;
+      const lastFrame = choreography[choreography.length - 1];
+      const newFrame = { ...lastFrame, index: lastFrame.index + 1 };
+      return { ...state, choreography: [...choreography, newFrame] };
     default:
       return state;
   }
