@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Formation } from './types';
 
 const Container = styled.div`
   border-left: 2px solid black;
@@ -14,10 +15,13 @@ const Snapshot = styled.div`
   height: 48px;
 `;
 
-export function FormationList({ formations }) {
+type Props = {
+  formations: Formation[];
+};
+export function FormationList({ formations }: Props) {
   return (
     <Container>
-      {formations.map(formation => (
+      {formations.map((formation) => (
         <Snapshot>{formation.index}</Snapshot>
       ))}
     </Container>
