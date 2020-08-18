@@ -89,6 +89,7 @@ class AStar:
                 return self.reconstruct_path(current, reversePath)
             current.out_openset = True
             current.closed = True
+            from icecream import ic
             for neighbor in map(lambda n: searchNodes[n], self.neighbors(current.data)):
                 if neighbor.closed:
                     continue

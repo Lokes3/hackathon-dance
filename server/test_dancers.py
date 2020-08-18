@@ -1,6 +1,11 @@
 import json
 
 import pytest
+<<<<<<< HEAD
+=======
+import time
+from server import dance_cbs
+>>>>>>> Next-level pathfinding
 
 from server.dancers import dummy_algo, Dance, Vector
 
@@ -20,6 +25,7 @@ def test_dummy_algo():
 
 
 def test_dance_vectors():
+<<<<<<< HEAD
     dance = Dance(test_json)
     assert dance.id == test_json["id"]
     assert dance.title == test_json["title"]
@@ -30,3 +36,4 @@ def test_dance_vectors():
 
     dance.interpolate(dummy_algo)
     # TODO: fix tests
+
