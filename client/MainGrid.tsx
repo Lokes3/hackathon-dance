@@ -7,8 +7,9 @@ type Props = {
     columns: number;
   };
   dispatch: Function;
+  frame: number;
 };
-export function MainGrid({ positions, dimensions, dispatch }: Props) {
+export function MainGrid({ positions, dimensions, dispatch, frame }: Props) {
   const [selectedDancer, setSelectedDancer] = useState(null);
   const { rows, columns } = dimensions;
   const canvasWidth = columns * 2 + 1;
@@ -34,12 +35,11 @@ export function MainGrid({ positions, dimensions, dispatch }: Props) {
   const move = e => {
     if (selectedDancer) {
       const coordinates = pixelsToCoord(e.clientX, e.clientY);
-      // console.log(coordinates);
       dispatch({
         type: 'MOVE_DANCER',
         name: selectedDancer,
         coordinates,
-        frame: 0
+        frame
       });
     }
   };

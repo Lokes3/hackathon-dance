@@ -43,14 +43,16 @@ const stateReducer = (state, action) => {
 };
 
 const App = () => {
-  const [frame, setFrame] = useState(0);
   const [state, dispatch] = useReducer(stateReducer, data);
+  const [frame, setFrame] = useState(1);
   return (
     <Page>
       <Main
         dimensions={state.dimensions}
-        formations={state.choreography[frame]}
+        formations={state.choreography}
         dispatch={dispatch}
+        frame={frame}
+        setFrame={setFrame}
       />
       <FormationList
         dimensions={state.dimensions}
