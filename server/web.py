@@ -1,10 +1,8 @@
 from typing import Dict, List
-from icecream import ic
 
 from fastapi import FastAPI
-
+from icecream import ic
 from pydantic import BaseModel
-
 
 app = FastAPI()
 
