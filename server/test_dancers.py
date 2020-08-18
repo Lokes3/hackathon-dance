@@ -2,10 +2,11 @@ import json
 
 import pytest
 
+import server
 from server import dancers
 
 TEST_JSON = json.loads(
-    """
+"""
 {
   "title": "Min första lista",
   "dimensions": {
@@ -72,5 +73,7 @@ TEST_JSON = json.loads(
 
 def test_dance_vectors():
     dance = dancers.Dance(TEST_JSON)
-    assert list(dance._vectors()) == [(13, 13, 17, 13, 21, 13), (13, 11, 17, 17, 21, 11)]
-    assert list(dance.vector_pairs()) == [((13, 13, 17, 13, 21, 13), (13, 11, 17, 17, 21, 11))]
+    assert list(dance._vectors()) == [
+        dancers.Vector(*l) for x in [[(13, 13), (17, 13), (21, 13)], [(13, 11), (17, 17), (21, 11)]] for l in x
+    ]
+    # assert list(dance.vector_pairs()) == [((13, 13, 17, 13, 21, 13), (13, 11, 17, 17, 21, 11))]
