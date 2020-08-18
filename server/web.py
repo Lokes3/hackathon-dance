@@ -1,13 +1,17 @@
 import json
+import os
+from pathlib import Path
 from typing import Dict, List
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from server import db
 
 app = FastAPI()
+dist_dir = Path(os.path.abspath(__file__)).parent.parent / "dist"
 
 
 class Position(BaseModel):
@@ -33,15 +37,25 @@ class Dance(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return FileResponse(dist_dir / "index.html")
+
+
+@app.get("/client.f69400ca.js")
+def read_js():
+    path = Path(os.path.abspath(__file__))
+    return FileResponse(dist_dir / "client.f69400ca.js")
+
+
+@app.get("/client.f69400ca.css")
+def read_css():
+    path = Path(os.path.abspath(__file__))
+    return FileResponse(dist_dir / "client.f69400ca.css")
 
 
 @app.get("/dances/")
 def get_dances(title: str):
     results = db.get_dances(title)
-    return {
-        "dances": [json.loads(r.data) for r in results]
-    }
+    return {"dances": [json.loads(r.data) for r in results]}
 
 
 @app.post("/dances/")

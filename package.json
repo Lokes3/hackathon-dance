@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "parcel client/index.html",
-    "build": "parcel build --experimental-scope-hoisting client/index.html"
+    "build": "parcel build --no-content-hash --experimental-scope-hoisting client/index.html"
   },
   "dependencies": {
     "@types/jest": "^26.0.10",
