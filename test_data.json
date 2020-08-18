@@ -7,6 +7,7 @@
   "choreography": [
     {
       "index": 0,
+      "subindex": 0,
       "description": "raise your hands",
       "positions": [
         {
@@ -31,6 +32,7 @@
     },
     {
       "index": 1,
+      "subindex": 0,
       "description": "raise your hands",
       "positions": [
         {
