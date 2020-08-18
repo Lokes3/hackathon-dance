@@ -26,7 +26,8 @@ export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
         <input value={title} onChange={changeTitle} />
       </h3>
       <div>
-        <button onClick={decrementFrame}>{'<'}</button>
+        Frame: {frame + 1}/{formations.length}{' '}
+        <button onClick={decrementFrame}>{'<'}</button>{' '}
         <button onClick={incrementFrame}>{'>'}</button>
       </div>
       <MainGrid

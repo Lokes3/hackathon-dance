@@ -57,6 +57,8 @@ const App = () => {
       <FormationList
         dimensions={state.dimensions}
         formations={state.choreography}
+        frame={frame}
+        setFrame={setFrame}
       />
     </Page>
   );

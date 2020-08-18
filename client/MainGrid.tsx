@@ -55,9 +55,11 @@ export function MainGrid({ positions, dimensions, dispatch, frame }: Props) {
     <svg
       ref={canvasRef}
       viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
-      style={{ border: '1px solid black' }}
-      width='100%'
-      height='auto'
+      style={{
+        border: '1px solid black',
+        width: '100%',
+        height: 'auto'
+      }}
       onMouseDown={selectDancer}
       onMouseUp={deSelectDancer}
       onMouseMove={move}
