@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MainGrid } from './MainGrid';
 
@@ -7,6 +7,9 @@ const Container = styled.div``;
 export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
   const formation = formations[frame];
   const [currentPositions, setCurrentPositions] = useState(formation.positions);
+  useEffect(() => {
+    setCurrentPositions(formation.positions);
+  }, [frame]);
   const changeTitle = e => {
     dispatch({
       type: 'CHANGE_NAME',
