@@ -37,12 +37,14 @@ class DanceAStar(AStar):
         n_dancers = len(node)
         from icecream import ic
         node_array = np.array(node)
-        diffs = taxi_cab_stencil(stencil(n_dancers))        # Find all neighbors
-        ic(diffs)
+        diffs = np.array(taxi_cab_stencil(stencil(n_dancers)))        # Find all neighbors)
         #print(diffs)
         neighbor_list = []
+        # ic(np.shape(node_array))
         for diff in diffs:
             potential_neighbor = node_array + diff
+            #ic(np.shape(diff))
+            #ic(potential_neighbor)
             potential = True
             for dancer1 in range(n_dancers):
                 if potential_neighbor[dancer1, 0] < 0 or potential_neighbor[dancer1, 0] > self.xmax \
@@ -58,8 +60,9 @@ class DanceAStar(AStar):
             if potential:
                 ## No collisions
                 #print(potential_neighbor)
-                neighbor_list.append(tuple(potential_neighbor[0]))
-        print(neighbor_list)
+                # ic(tuple(tuple(x) for x in potential_neighbor))
+                neighbor_list.append(tuple(tuple(x) for x in potential_neighbor))
+        #print(neighbor_list)
         return neighbor_list
 
     def distance_between(self, n1, n2):
@@ -68,7 +71,8 @@ class DanceAStar(AStar):
         return np.sum(diff_vector)
 
     def heuristic_cost_estimate(self, current, goal):
-        print(self.distance_between(current, goal))
+        # from icecream import ic
+        # ic(self.distance_between(current, goal))
         return self.distance_between(current, goal)
 
     def is_goal_reached(self, current, goal):
@@ -76,7 +80,9 @@ class DanceAStar(AStar):
 
 
 def find_dance_path(start, goal, xmax, ymax):
-    return list(DanceAStar(xmax, ymax).astar(start, goal))
+    out_value = list(DanceAStar(xmax, ymax).astar(start, goal))
+    # print(out_value)
+    return out_value
 
 if __name__ == '__main__':
-    print(find_dance_path(start=((0, 0), (2, 0)), goal=((0, 3), (2, 3)), xmax=5, ymax=5))
+    print(find_dance_path(start=((0, 0), (2, 3), (3, 0)), goal=((2, 3), (0, 0), (0,3)), xmax=5, ymax=5))

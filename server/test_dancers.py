@@ -77,4 +77,4 @@ def test_dance_vectors():
     assert list(dance.vector_pairs()) == [((13, 13, 17, 13, 21, 13), (13, 11, 17, 17, 21, 11))]
 
 def test_simple_pathfinding():
-    dance_astar.find_dance_path(start=((0,0),(2,0)),goal=((0,2),(2,2)), xmax=5, ymax=5)
+    print(dance_astar.find_dance_path(start=((0, 0), (0,1), (0,2), (0,3)), goal=((3, 0), (3, 1), (3, 2), (3,3)), xmax=50, ymax=50))
