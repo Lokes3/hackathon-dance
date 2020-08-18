@@ -87,8 +87,8 @@ def compute(dance: dict):
 
 
 @app.post("/dances/{dance_id}/")
-def save_dance(dance_id: int, dance: Dance):
+def save_dance(dance_id: int, data: dict):
     dance_db = db.get_dance(dance_id)
-    dance_db.data = dance.to_json()
+    dance_db.data = Dance(**data["data"]).to_json()
     dance_db.save()
     return {"success": True}
