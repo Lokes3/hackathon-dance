@@ -18,6 +18,7 @@ class Position(BaseModel):
     name: str
     x: int
     y: int
+    color: str
 
 
 class Formation(BaseModel):
@@ -39,6 +40,7 @@ class Dance(BaseModel):
             self.dimensions = {"rows": 12, "columns": 12}
 
     def to_json(self):
+        print(self)
         return json.dumps(jsonable_encoder(self))
 
 
@@ -66,13 +68,6 @@ def get_dances(title: Optional[str] = None):
 
 @app.post("/dances/")
 def create_dance(dance: Dance):
-    dance.choreography = [
-        Formation(
-            index=0,
-            description="Första positionen",
-            positions=[],
-        ),
-    ]
     dance = db.save_dance(dance)
     return {
         "success": True,
