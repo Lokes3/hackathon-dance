@@ -14,6 +14,10 @@ const Page = styled.div`
 
 const data = {
   title: 'Min första lista',
+  dimensions: {
+    rows: 12,
+    columns: 16
+  },
   choreography: [
     {
       index: 0,
@@ -21,20 +25,20 @@ const data = {
       positions: [
         {
           name: 'A',
-          x: 3,
-          y: 3,
+          x: 13,
+          y: 11,
           color: 'red'
         },
         {
           name: 'B',
-          x: 5,
-          y: 3,
+          x: 17,
+          y: 21,
           color: 'green'
         },
         {
           name: 'C',
-          x: 7,
-          y: 3,
+          x: 21,
+          y: 11,
           color: 'blue'
         }
       ]
@@ -45,20 +49,20 @@ const data = {
       positions: [
         {
           name: 'A',
-          x: 3,
-          y: 5,
+          x: 13,
+          y: 17,
           color: 'red'
         },
         {
           name: 'B',
-          x: 5,
-          y: 5,
+          x: 17,
+          y: 17,
           color: 'green'
         },
         {
           name: 'C',
-          x: 7,
-          y: 5,
+          x: 21,
+          y: 17,
           color: 'blue'
         }
       ]
@@ -70,10 +74,11 @@ const data = {
 const App = () => {
   return (
     <Page>
-      <div>
-        <Grid />
-      </div>
-      <FormationList formations={data.choreography} />
+      <div>{/* <Grid /> */}</div>
+      <FormationList
+        dimensions={data.dimensions}
+        formations={data.choreography}
+      />
     </Page>
   );
 };
