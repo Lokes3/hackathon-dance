@@ -1,6 +1,5 @@
 #! /usr/bin/env python3.8
 
-from __future__ import annotations
 
 import json
 from typing import Any, Callable, Dict, Generator, Tuple, List
@@ -16,14 +15,14 @@ class Dance:
         self.id: int = json_object.get("id", None)
         self.choreography: List[Dict[str, Any]] = json_object.get("choreography", [])
 
-    def _vectors(self) -> Generator[Tuple[int, ...]]:
+    def _vectors(self) -> Generator:
         for frame in self.choreography:
             vector = []
             for pos in sorted(frame["positions"], key=lambda pos: pos["name"]):
                 vector.extend([pos["x"], pos["y"]])
             yield tuple(vector)
 
-    def vector_pairs(self) -> Generator[Tuple[Tuple[int, ...], Tuple[int, ...]]]:
+    def vector_pairs(self) -> Generator:
         prev = None
         for vec in self._vectors():
             if prev is not None:

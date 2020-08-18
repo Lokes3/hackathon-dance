@@ -1,6 +1,7 @@
 import json
 
 import pytest
+from server import dance_astar
 
 from server import dancers
 
@@ -74,3 +75,6 @@ def test_dance_vectors():
     dance = dancers.Dance(TEST_JSON)
     assert list(dance._vectors()) == [(13, 13, 17, 13, 21, 13), (13, 11, 17, 17, 21, 11)]
     assert list(dance.vector_pairs()) == [((13, 13, 17, 13, 21, 13), (13, 11, 17, 17, 21, 11))]
+
+def test_simple_pathfinding():
+    dance_astar.find_dance_path(start=((0,0),(2,0)),goal=((0,2),(2,2)), xmax=5, ymax=5)

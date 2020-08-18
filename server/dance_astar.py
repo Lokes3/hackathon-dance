@@ -1,4 +1,4 @@
-from astar import AStar
+from server.astar import AStar
 import numpy as np
 from itertools import product
 
