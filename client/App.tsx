@@ -78,6 +78,18 @@ const App = ({ data }) => {
         frame={frame}
         setFrame={setFrame}
       />
+      <button
+        onClick={() => {
+          fetch(`/dances/${state.id}/`, {
+            method: 'POST',
+            body: JSON.stringify({
+              data: state
+            })
+          });
+        }}
+      >
+        Save
+      </button>
     </Page>
   );
 };
