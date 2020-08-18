@@ -4,51 +4,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import data from '../test_data.json';
-
-function CreateDanceForm() {
-  const [title, setTitle] = useState('');
-  const [numDancers, setNumDancers] = useState(3);
-  return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        fetch('/dances/', {
-          method: 'POST',
-          body: JSON.stringify({
-            title: title,
-            numDancers: numDancers,
-          })
-        })
-          .then((r) => r.json())
-          .then((data) => {
-            console.log(data);
-          });
-      }}
-    >
-      <div>
-        <label>Titel</label>
-        <input
-          type='text'
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <label>Antal dansare</label>
-        <input
-          type='number'
-          value={numDancers}
-          onChange={(e) => {
-            setNumDancers(Number.parseInt(e.target.value));
-          }}
-        />
-      </div>
-      <button type='submit'>Skapa</button>
-    </form>
-  );
-}
+import { CreateDanceForm } from './CreateDanceForm';
 
 function DanceSelection() {
   const [dances, setDances] = useState<any>([data]);
@@ -62,8 +18,13 @@ function DanceSelection() {
         setDances([...dances, ...data.dances]);
       });
   }, []);
+  // This is a bad way to do this
+  const params = new URLSearchParams(window.location.search)
+  const selectedId = Number.parseInt(params.get("id"))
   if (selected) {
     return <App data={selected} />;
+  } else if (selectedId && dances.filter(d => d.id === selectedId).length) {
+    setSelected(dances.filter(d => d.id === selectedId)[0])
   } else {
     return (
       <div>
@@ -74,8 +35,9 @@ function DanceSelection() {
         <ul>
           {dances.map((dance, i) => {
             return (
-              <li key={i} onClick={() => setSelected(dance)}>
-                {dance.title}
+              <li key={i}>
+                <div onClick={() => setSelected(dance)}>{dance.title}</div>
+                <a href={ `/?id=${dance.id}` }>Länk</a>
               </li>
             );
           })}

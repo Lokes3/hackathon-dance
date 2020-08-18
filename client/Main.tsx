@@ -9,7 +9,7 @@ export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
   const [currentPositions, setCurrentPositions] = useState(formation.positions);
   useEffect(() => {
     setCurrentPositions(formation.positions);
-  }, [frame]);
+  }, [frame, formations]);
   const changeTitle = e => {
     dispatch({
       type: 'CHANGE_NAME',

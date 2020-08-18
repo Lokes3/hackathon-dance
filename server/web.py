@@ -17,6 +17,7 @@ class Position(BaseModel):
     name: str
     x: int
     y: int
+    color: str
 
 
 class Formation(BaseModel):
@@ -29,6 +30,7 @@ class Dance(BaseModel):
     title: str
     dimensions: Optional[Dict]
     choreography: Optional[List[Formation]]
+    id: Optional[int]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -59,19 +61,12 @@ def read_css():
 @app.get("/dances/")
 def get_dances(title: Optional[str] = None):
     results = db.get_dances(title)
-    dances = [Dance(**json.loads(r.data)) for r in results]
+    dances = [Dance(**{**json.loads(r.data), **dict(id=r.id)}) for r in results]
     return {"dances": [json.loads(d.to_json()) for d in dances]}
 
 
 @app.post("/dances/")
 def create_dance(dance: Dance):
-    dance.choreography = [
-        Formation(
-            index=0,
-            description="Första positionen",
-            positions=[],
-        ),
-    ]
     dance = db.save_dance(dance)
     return {
         "success": True,
