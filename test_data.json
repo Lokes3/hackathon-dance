@@ -11,20 +11,20 @@
       "positions": [
         {
           "name": "A",
-          "x": 3,
-          "y": 3,
+          "x": 13,
+          "y": 13,
           "color": "red"
         },
         {
           "name": "B",
-          "x": 5,
-          "y": 3,
+          "x": 17,
+          "y": 13,
           "color": "green"
         },
         {
           "name": "C",
-          "x": 7,
-          "y": 3,
+          "x": 21,
+          "y": 13,
           "color": "blue"
         }
       ]
@@ -35,20 +35,20 @@
       "positions": [
         {
           "name": "A",
-          "x": 3,
-          "y": 5,
+          "x": 13,
+          "y": 11,
           "color": "red"
         },
         {
           "name": "B",
-          "x": 5,
-          "y": 5,
+          "x": 17,
+          "y": 17,
           "color": "green"
         },
         {
           "name": "C",
-          "x": 7,
-          "y": 5,
+          "x": 21,
+          "y": 11,
           "color": "blue"
         }
       ]

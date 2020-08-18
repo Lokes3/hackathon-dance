@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FormationList } from './FormationList';
+import { Main } from './Main';
 import * as data from '../test_data.json';
 
 const Page = styled.div`
@@ -13,9 +14,13 @@ const Page = styled.div`
 `;
 
 const App = () => {
+  const [frame, setFrame] = useState(0);
   return (
     <Page>
-      <div>{/* <Grid /> */}</div>
+      <Main
+        dimensions={data.dimensions}
+        formations={data.choreography[frame]}
+      />
       <FormationList
         dimensions={data.dimensions}
         formations={data.choreography}
