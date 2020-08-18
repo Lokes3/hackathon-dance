@@ -1,6 +1,8 @@
 import json
 
 import pytest
+import time
+from server import dance_astar
 
 import server
 from server import dancers

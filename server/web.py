@@ -1,10 +1,11 @@
+import json
 from typing import Dict, List
-from icecream import ic
 
 from fastapi import FastAPI
-
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
+from server import db
 
 app = FastAPI()
 
@@ -26,15 +27,27 @@ class Dance(BaseModel):
     dimensions: Dict
     choreography: List[Formation]
 
+    def to_json(self):
+        return json.dumps(jsonable_encoder(self))
+
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
 
+@app.get("/dances/")
+def get_dances(title: str):
+    results = db.get_dances(title)
+    return {
+        "dances": [json.loads(r.data) for r in results]
+    }
+
+
 @app.post("/dances/")
 def create_dance(dance: Dance):
-    ic(dance)
+    dance = db.save_dance(dance)
     return {
         "success": True,
+        "id": dance,
     }

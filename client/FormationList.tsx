@@ -11,20 +11,33 @@ const Container = styled.div`
 `;
 
 const Snapshot = styled.div`
-  border: 1px solid black;
+  border: 1px solid
+    ${({ selected }) => {
+      return selected ? 'red' : 'black';
+    }};
   margin: 4px;
-  height: 48px;
 `;
 
 type Props = {
   formations: Formation[];
-  dimensions
+  dimensions;
+  frame: number;
+  setFrame: Function;
 };
-export function FormationList({ formations, dimensions }: Props) {
+export function FormationList({
+  formations,
+  dimensions,
+  frame,
+  setFrame
+}: Props) {
   return (
     <Container>
       {formations.map(formation => (
-        <Snapshot key={formation.index}>
+        <Snapshot
+          key={formation.index}
+          selected={frame === formation.index}
+          onClick={() => setFrame(formation.index)}
+        >
           <Grid dimensions={dimensions} positions={formation.positions} />
         </Snapshot>
       ))}
