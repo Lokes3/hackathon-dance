@@ -41,22 +41,19 @@ class Dance:
                 yield prev, vec
             prev = vec
 
-    def _interpolate(self, algorithm: Algorithm) -> List[Dict[str, Any]]:
-        interpolated_choreo = []
+    def interpolate(self, algorithm: Algorithm) -> None:
         for frame, vector_pair in zip(self.choreography, self.vector_pairs()):
             _, *intermediates, _ = algorithm(*vector_pair, *self.real_dimensions)
-            interpolated_choreo.append(frame)
-            for i, intermediate_vector in enumerate(intermediates, 1):
+            frame_copy = frame.copy()
+            del frame_copy["description"]
+            frame["key_frames"] = []
+            for i, intermediate_vector in enumerate(intermediates):
                 interpolated_pos = [
                     dict(pos, x=x, y=y)
                     for (x, y), pos in zip(intermediate_vector, frame["positions"])
                 ]
-                interpolated_choreo.append(dict(frame, positions=interpolated_pos, subindex=i))
-        interpolated_choreo.append(self.choreography[-1])
-        return interpolated_choreo
+                frame["key_frames"].append(dict(frame_copy, positions=interpolated_pos, index=i))
 
-    def interpolate(self, algorithm: Algorithm) -> None:
-        self.choreography = self._interpolate(algorithm)
 
     def to_dict(self) -> Dict[str, Any]:
         return dict(

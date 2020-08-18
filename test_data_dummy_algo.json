@@ -7,7 +7,6 @@
     "choreography": [
         {
             "index": 0,
-            "subindex": 0,
             "description": "raise your hands",
             "positions": [
                 {
@@ -28,61 +27,58 @@
                     "y": 13,
                     "color": "blue"
                 }
-            ]
-        },
-        {
-            "index": 0,
-            "subindex": 1,
-            "description": "raise your hands",
-            "positions": [
+            ],
+            "key_frames": [
                 {
-                    "name": "A",
-                    "x": 14,
-                    "y": 13,
-                    "color": "red"
+                    "index": 0,
+                    "positions": [
+                        {
+                            "name": "A",
+                            "x": 14,
+                            "y": 13,
+                            "color": "red"
+                        },
+                        {
+                            "name": "B",
+                            "x": 18,
+                            "y": 13,
+                            "color": "green"
+                        },
+                        {
+                            "name": "C",
+                            "x": 22,
+                            "y": 13,
+                            "color": "blue"
+                        }
+                    ]
                 },
                 {
-                    "name": "B",
-                    "x": 18,
-                    "y": 13,
-                    "color": "green"
-                },
-                {
-                    "name": "C",
-                    "x": 22,
-                    "y": 13,
-                    "color": "blue"
-                }
-            ]
-        },
-        {
-            "index": 0,
-            "subindex": 2,
-            "description": "raise your hands",
-            "positions": [
-                {
-                    "name": "A",
-                    "x": 13,
-                    "y": 12,
-                    "color": "red"
-                },
-                {
-                    "name": "B",
-                    "x": 17,
-                    "y": 18,
-                    "color": "green"
-                },
-                {
-                    "name": "C",
-                    "x": 21,
-                    "y": 12,
-                    "color": "blue"
+                    "index": 1,
+                    "positions": [
+                        {
+                            "name": "A",
+                            "x": 13,
+                            "y": 12,
+                            "color": "red"
+                        },
+                        {
+                            "name": "B",
+                            "x": 17,
+                            "y": 18,
+                            "color": "green"
+                        },
+                        {
+                            "name": "C",
+                            "x": 21,
+                            "y": 12,
+                            "color": "blue"
+                        }
+                    ]
                 }
             ]
         },
         {
             "index": 1,
-            "subindex": 0,
             "description": "raise your hands",
             "positions": [
                 {
