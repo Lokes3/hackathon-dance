@@ -37,19 +37,17 @@ class Dance(BaseModel):
 
 @app.get("/")
 def read_root():
-    return FileResponse(dist_dir / "index.html")
+    return FileResponse(str(dist_dir / "index.html"))
 
 
 @app.get("/client.f69400ca.js")
 def read_js():
-    path = Path(os.path.abspath(__file__))
-    return FileResponse(dist_dir / "client.f69400ca.js")
+    return FileResponse(str(dist_dir / "client.f69400ca.js"))
 
 
 @app.get("/client.f69400ca.css")
 def read_css():
-    path = Path(os.path.abspath(__file__))
-    return FileResponse(dist_dir / "client.f69400ca.css")
+    return FileResponse(str(dist_dir / "client.f69400ca.css"))
 
 
 @app.get("/dances/")
