@@ -13,6 +13,7 @@ type Props = {
 
 const Circle = styled.circle`
   transition: cx 0.5s, cy 0.5s;
+  transition-timing-function: linear;
 `;
 
 export function MainGrid({ positions, dimensions, dispatch, frame }: Props) {

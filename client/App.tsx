@@ -2,6 +2,7 @@ import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { FormationList } from './FormationList';
 import { Main } from './Main';
+import data from '../test_data_dummy_algo.json';
 
 const Page = styled.div`
   min-height: calc(100vh - 4rem);
@@ -14,7 +15,7 @@ const Page = styled.div`
 
 const stateReducer = (state, action) => {
   switch (action.type) {
-    case 'MOVE_DANCER':
+    case 'MOVE_DANCER': {
       const { name, coordinates, frame } = action;
       const { choreography } = state;
       const { positions } = choreography[frame];
@@ -36,11 +37,24 @@ const stateReducer = (state, action) => {
         ...choreography.slice(frame + 1)
       ];
       return { ...state, choreography: newChoreography };
-    case 'ADD_FRAME':
+    }
+    case 'CHANGE_NAME': {
+      const { description, frame } = action;
+      const { choreography } = state;
+      const newFormation = { ...choreography[frame], description };
+      const newChoreography = [
+        ...choreography.slice(0, frame),
+        newFormation,
+        ...choreography.slice(frame + 1)
+      ];
+      return { ...state, choreography: newChoreography };
+    }
+    case 'ADD_FRAME': {
       const { choreography } = state;
       const lastFrame = choreography[choreography.length - 1];
       const newFrame = { ...lastFrame, index: lastFrame.index + 1 };
       return { ...state, choreography: [...choreography, newFrame] };
+    }
     default:
       return state;
   }
@@ -48,7 +62,7 @@ const stateReducer = (state, action) => {
 
 const App = ({ data }) => {
   const [state, dispatch] = useReducer(stateReducer, data);
-  const [frame, setFrame] = useState(1);
+  const [frame, setFrame] = useState(0);
   return (
     <Page>
       <Main
