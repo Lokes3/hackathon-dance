@@ -4,7 +4,7 @@ import { MainGrid } from './MainGrid';
 
 const Container = styled.div``;
 
-export function Main({ formations, dimensions }) {
+export function Main({ formations, dimensions, dispatch }) {
   const [title, setTitle] = useState(formations.description);
   const changeTitle = e => {
     setTitle(e.target.value);
@@ -14,7 +14,11 @@ export function Main({ formations, dimensions }) {
       <h3>
         <input value={title} onChange={changeTitle} />
       </h3>
-      <MainGrid positions={formations.positions} dimensions={dimensions} />
+      <MainGrid
+        positions={formations.positions}
+        dimensions={dimensions}
+        dispatch={dispatch}
+      />
     </Container>
   );
 }
