@@ -1,7 +1,38 @@
 import './scss/global.scss';
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import App from './App';
+import data from '../test_data.json';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function DanceSelection() {
+  const [dances, setDances] = useState<any>([data]);
+  const [selected, setSelected] = useState<any>(null);
+  useEffect(() => {
+    fetch('/dances/')
+      .then((r) => {
+        return r.json();
+      })
+      .then((data) => {
+        setDances([...dances, ...data.dances]);
+      });
+  }, []);
+  if (selected) {
+    return <App data={selected} />;
+  } else {
+    return (
+      <div>
+        <h1>Dappen</h1>
+        <h2>Skapa ny</h2>
+        <h2>Välj</h2>
+        <ul>
+          {dances.map((dance, i) => {
+            return <li key={i} onClick={() => setSelected(dance)}>Test</li>;
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<DanceSelection />, document.getElementById('root'));

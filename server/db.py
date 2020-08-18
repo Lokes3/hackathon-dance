@@ -1,4 +1,5 @@
 from peewee import CharField, Model, SqliteDatabase, TextField
+from typing import Optional
 
 db = SqliteDatabase("dances.db")
 
@@ -18,9 +19,11 @@ db.connect()
 db.create_tables(MODELS)
 
 
-def get_dances(title):
+def get_dances(title: Optional[str]):
     # ** betyder ILIKE
-    query = DanceDB.select().where(DanceDB.title ** f"{title}%")
+    query = DanceDB.select()
+    if title:
+        query = query.where(DanceDB.title ** f"{title}%")
     return list(query)
 
 

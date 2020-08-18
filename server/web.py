@@ -1,7 +1,7 @@
 import json
 import os
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -51,7 +51,7 @@ def read_css():
 
 
 @app.get("/dances/")
-def get_dances(title: str):
+def get_dances(title: Optional[str] = None):
     results = db.get_dances(title)
     return {"dances": [json.loads(r.data) for r in results]}
 

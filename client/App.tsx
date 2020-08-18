@@ -2,7 +2,6 @@ import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { FormationList } from './FormationList';
 import { Main } from './Main';
-import data from '../test_data.json';
 
 const Page = styled.div`
   min-height: calc(100vh - 4rem);
@@ -47,7 +46,7 @@ const stateReducer = (state, action) => {
   }
 };
 
-const App = () => {
+const App = ({ data }) => {
   const [state, dispatch] = useReducer(stateReducer, data);
   const [frame, setFrame] = useState(1);
   return (
