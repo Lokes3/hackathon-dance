@@ -1,5 +1,4 @@
 import json
-import os
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -8,10 +7,10 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-from server import db
+from server import cbs, dancers, db
 
 app = FastAPI()
-dist_dir = Path(os.path.abspath(__file__)).parent.parent / "dist"
+dist_dir = Path(__file__).absolute().parent.parent / "dist"
 
 
 class Position(BaseModel):
@@ -83,3 +82,10 @@ def create_dance(dance: Dance):
 @app.get("/dances/{dance_id}/")
 def get_dance(dance_id: int):
     return Dance(**json.loads(db.get_dance(dance_id).data))
+
+
+@app.get("/compute/")
+def create_dance(dance: Dance):
+    dance_obj = dancers.Dance(dance)
+    dance_obj.interpolate(cbs.find_dance_path)
+    return dance_obj.to_dict()

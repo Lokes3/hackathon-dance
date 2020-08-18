@@ -3,6 +3,8 @@
 import json
 from typing import Any, Callable, Dict, Generator, NamedTuple, Tuple, List
 
+from server import cbs
+
 with open("test_data.json", encoding="utf-8") as f:
     test_data = json.load(f)
 
@@ -74,18 +76,18 @@ if __name__ == "__main__":
 
     pprint(list(dance.movements()))
 
-    res = dummy_algo(
-        [
-            {"goal": [13, 11], "name": "A", "start": [13, 13]},
-            {"goal": [17, 17], "name": "B", "start": [17, 13]},
-            {"goal": [21, 11], "name": "C", "start": [21, 13]},
-        ],
-        10,
-        10,
-    )
-    print(res)
+    # res = dummy_algo(
+    #     [
+    #         {"goal": [13, 11], "name": "A", "start": [13, 13]},
+    #         {"goal": [17, 17], "name": "B", "start": [17, 13]},
+    #         {"goal": [21, 11], "name": "C", "start": [21, 13]},
+    #     ],
+    #     10,
+    #     10,
+    # )
+    # print(res)
 
-    dance.interpolate(dummy_algo)
+    dance.interpolate(cbs.find_dance_path)
     # with open("test_data_dummy_algo.json", "w", encoding="utf-8") as f:
     #     f.write(json.dumps(dance.to_dict(), indent=4, ensure_ascii=False))
     print(json.dumps(dance.to_dict(), indent=4, ensure_ascii=False))
