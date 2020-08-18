@@ -1,7 +1,7 @@
 import json
 import os
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -28,8 +28,15 @@ class Formation(BaseModel):
 
 class Dance(BaseModel):
     title: str
-    dimensions: Dict
-    choreography: List[Formation]
+    dimensions: Optional[Dict]
+    choreography: Optional[List[Formation]]
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not self.choreography:
+            self.choreography = []
+        if not self.dimensions:
+            self.dimensions = {"rows": 12, "columns": 12}
 
     def to_json(self):
         return json.dumps(jsonable_encoder(self))
@@ -51,15 +58,28 @@ def read_css():
 
 
 @app.get("/dances/")
-def get_dances(title: str):
+def get_dances(title: Optional[str] = None):
     results = db.get_dances(title)
-    return {"dances": [json.loads(r.data) for r in results]}
+    dances = [Dance(**json.loads(r.data)) for r in results]
+    return {"dances": [json.loads(d.to_json()) for d in dances]}
 
 
 @app.post("/dances/")
 def create_dance(dance: Dance):
+    dance.choreography = [
+        Formation(
+            index=0,
+            description="Första positionen",
+            positions=[],
+        ),
+    ]
     dance = db.save_dance(dance)
     return {
         "success": True,
         "id": dance,
     }
+
+
+@app.get("/dances/{dance_id}/")
+def get_dance(dance_id: int):
+    return Dance(**json.loads(db.get_dance(dance_id).data))

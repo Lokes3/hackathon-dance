@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MainGrid } from './MainGrid';
 
@@ -6,17 +6,34 @@ const Container = styled.div``;
 
 export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
   const formation = formations[frame];
-  const [title, setTitle] = useState(formation.description);
+  const [currentPositions, setCurrentPositions] = useState(formation.positions);
+  useEffect(() => {
+    setCurrentPositions(formation.positions);
+  }, [frame]);
   const changeTitle = e => {
-    setTitle(e.target.value);
+    dispatch({
+      type: 'CHANGE_NAME',
+      frame,
+      description: e.target.value
+    });
   };
   const incrementFrame = () => {
     if (frame < formations.length - 1) {
-      setFrame(frame + 1);
+      const animationFrames = [
+        ...formation.key_frames.map(frames => frames.positions),
+        formations[frame + 1].positions
+      ];
+      let j;
+      animationFrames.forEach((frame, i) => {
+        setTimeout(() => setCurrentPositions(frame), i * 500);
+        j = i;
+      });
+      setTimeout(() => setFrame(frame + 1), j * 500);
     }
   };
   const decrementFrame = () => {
     if (frame - 1 >= 0) {
+      setCurrentPositions(formations[frame - 1].positions);
       setFrame(frame - 1);
     }
   };
@@ -26,7 +43,7 @@ export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
   return (
     <Container>
       <h3>
-        <input value={title} onChange={changeTitle} />
+        <input value={formation.description} onChange={changeTitle} />
       </h3>
       <div>
         Frame: {frame + 1}/{formations.length}{' '}
@@ -35,7 +52,7 @@ export function Main({ formations, dimensions, dispatch, frame, setFrame }) {
         <button onClick={addFrame}>Add Frame</button>
       </div>
       <MainGrid
-        positions={formation.positions}
+        positions={currentPositions}
         dimensions={dimensions}
         dispatch={dispatch}
         frame={formation.index}
