@@ -26,7 +26,7 @@ const LETTERS = [
   'W',
   'X',
   'Y',
-  'Z'
+  'Z',
 ];
 
 const COLORS = [
@@ -37,30 +37,31 @@ const COLORS = [
   '#ffd5cd',
   '#efbbcf',
   '#c3aed6',
-  '#8675a9'
+  '#8675a9',
 ];
 
 function createDance(title, numDancers) {
-        const positions = new Array(numDancers).fill(null).map((_, i) => ({
-          name: LETTERS[i],
-          x: 3 + i * 3,
-          y: 3,
-          color: COLORS[i]
-        }));
-        const dance = {
-          title: title,
-          dimensions: {
-            rows: 12,
-            columns: 16
-          },
-          choreography: [
-            {
-              index: 0,
-              description: 'Första positionen',
-              positions: positions
-            }
-          ]
-        };
+  const positions = new Array(numDancers).fill(null).map((_, i) => ({
+    name: LETTERS[i],
+    x: 3 + i * 3,
+    y: 3,
+    color: COLORS[i],
+  }));
+  const dance = {
+    title: title,
+    dimensions: {
+      rows: 12,
+      columns: 16,
+    },
+    choreography: [
+      {
+        index: 0,
+        description: 'Första positionen',
+        positions: positions,
+      },
+    ],
+  };
+  return dance
 }
 
 export function CreateDanceForm() {
@@ -68,14 +69,14 @@ export function CreateDanceForm() {
   const [numDancers, setNumDancers] = useState(3);
   return (
     <form
-      onSubmit={event => {
+      onSubmit={(event) => {
         event.preventDefault();
         fetch('/dances/', {
           method: 'POST',
-          body: JSON.stringify(createDance(title, numDancers))
+          body: JSON.stringify(createDance(title, numDancers)),
         })
-          .then(r => r.json())
-          .then(data => {
+          .then((r) => r.json())
+          .then((data) => {
             console.log(data);
           });
       }}
@@ -85,7 +86,7 @@ export function CreateDanceForm() {
         <input
           type='text'
           value={title}
-          onChange={e => {
+          onChange={(e) => {
             setTitle(e.target.value);
           }}
         />
@@ -97,7 +98,7 @@ export function CreateDanceForm() {
           value={numDancers}
           max={25}
           min={1}
-          onChange={e => {
+          onChange={(e) => {
             setNumDancers(Number.parseInt(e.target.value));
           }}
         />

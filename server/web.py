@@ -40,7 +40,6 @@ class Dance(BaseModel):
             self.dimensions = {"rows": 12, "columns": 12}
 
     def to_json(self):
-        print(self)
         return json.dumps(jsonable_encoder(self))
 
 
