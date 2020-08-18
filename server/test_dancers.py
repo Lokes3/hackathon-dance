@@ -1,11 +1,8 @@
 import json
 
 import pytest
-<<<<<<< HEAD
-=======
 import time
-from server import dance_cbs
->>>>>>> Next-level pathfinding
+from server import cbs
 
 from server.dancers import dummy_algo, Dance, Vector
 
@@ -25,7 +22,6 @@ def test_dummy_algo():
 
 
 def test_dance_vectors():
-<<<<<<< HEAD
     dance = Dance(test_json)
     assert dance.id == test_json["id"]
     assert dance.title == test_json["title"]
@@ -37,3 +33,6 @@ def test_dance_vectors():
     dance.interpolate(dummy_algo)
     # TODO: fix tests
 
+def test_pathfinding():
+    print(cbs.find_dance_path([{'name': 'A', 'start': [10, 20], 'goal': [20, 10]},
+                               {'name': 'B', 'start': [20, 10], 'goal': [10, 20]}], 33, 25))

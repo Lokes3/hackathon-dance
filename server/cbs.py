@@ -5,8 +5,8 @@ author: Ashwin Bose (@atb033)
 import sys
 
 sys.path.insert(0, '../')
-import argparse
-import yaml
+# import argparse
+# import yaml
 from math import fabs
 from itertools import combinations
 from copy import deepcopy
@@ -318,7 +318,8 @@ class CBS(object):
 
 def pad_solution(solution):
     padded_solution = {}
-    max_length = max(solution.values(), key=len)
+    max_length = len(max(solution.values(), key=len))
+    print(max_length)
     for agent in solution:
         path_list = list(map(lambda item: (item['x'], item['y']), solution[agent]))
         len_diff = max_length - len(solution[agent])
@@ -369,4 +370,8 @@ def find_dance_path(agents, xmax, ymax):
 
 
 if __name__ == "__main__":
-    pass
+    print(find_dance_path([{'name': 'A', 'start': [13, 13], 'goal': [21, 11]},
+                     {'name': 'B', 'start': [17, 17], 'goal': [17, 11]},
+                      {'name': 'C', 'start': [21, 13], 'goal': [13,11]}],
+
+                    33, 25))
