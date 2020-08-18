@@ -7,6 +7,9 @@ To install and start:
 2. Run
 
 ```
+
+Simon's addition
+
 # Install
 yarn
 
