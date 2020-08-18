@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
-from server.db import save_dance
+from server import db
 
 app = FastAPI()
 
@@ -36,9 +36,17 @@ def read_root():
     return {"Hello": "World"}
 
 
+@app.get("/dances/")
+def get_dances(title: str):
+    results = db.get_dances(title)
+    return {
+        "dances": [json.loads(r.data) for r in results]
+    }
+
+
 @app.post("/dances/")
 def create_dance(dance: Dance):
-    dance = save_dance(dance)
+    dance = db.save_dance(dance)
     return {
         "success": True,
         "id": dance,

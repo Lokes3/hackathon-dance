@@ -23,7 +23,7 @@ def teardown_module(self):
     test_db.close()
 
 
-def test_update():
+def test_get_dances():
     dance_1 = Dance(title="Example 1", dimensions={}, choreography=[])
     dance_2 = Dance(title="Example 2", dimensions={}, choreography=[])
     dance_3 = Dance(title="Dont save me!", dimensions={}, choreography=[])
