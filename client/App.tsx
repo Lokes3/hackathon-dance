@@ -16,7 +16,7 @@ const Page = styled.div`
 const stateReducer = (state, action) => {
   switch (action.type) {
     case 'SET_STATE': {
-      console.log(action)
+      console.log(action);
       return action.state;
     }
     case 'MOVE_DANCER': {
@@ -64,7 +64,7 @@ const stateReducer = (state, action) => {
   }
 };
 
-const App = ({ data }) => {
+export default function App({ data }) {
   const [state, dispatch] = useReducer(stateReducer, data);
   const [frame, setFrame] = useState(0);
   return (
@@ -86,6 +86,10 @@ const App = ({ data }) => {
         onClick={() => {
           fetch(`/dances/${state.id}/`, {
             method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
               data: state,
             }),
@@ -93,12 +97,13 @@ const App = ({ data }) => {
             console.log('computing');
             fetch('/compute/', {
               method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
               body: JSON.stringify(state),
             })
-              .then((r) => {
-                console.log('computed');
-                return r.json();
-              })
+              .then((r) => r.json())
               .then((data) => {
                 dispatch({ type: 'SET_STATE', state: data });
               });
@@ -109,6 +114,4 @@ const App = ({ data }) => {
       </button>
     </Page>
   );
-};
-
-export default App;
+}

@@ -61,7 +61,7 @@ function createDance(title, numDancers) {
       },
     ],
   };
-  return dance
+  return dance;
 }
 
 export function CreateDanceForm() {
@@ -73,6 +73,10 @@ export function CreateDanceForm() {
         event.preventDefault();
         fetch('/dances/', {
           method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify(createDance(title, numDancers)),
         })
           .then((r) => r.json())
@@ -86,6 +90,7 @@ export function CreateDanceForm() {
         <input
           type='text'
           value={title}
+          required
           onChange={(e) => {
             setTitle(e.target.value);
           }}
@@ -107,3 +112,5 @@ export function CreateDanceForm() {
     </form>
   );
 }
+
+function postJSON() {}
